@@ -1,5 +1,4 @@
 const User = require('../users/users-model');
-const yup = require('yup');
 
 function logger(req, res, next) {
   console.log(`Method: [${req.method}]`);
@@ -21,9 +20,6 @@ async function validateUserId(req, res, next) {
   } catch (err) {
     next({ message: err.message })
   }
-
-
-  // DO YOUR MAGIC
 }
 
 async function validateUser(req, res, next) {
@@ -42,7 +38,16 @@ async function validateUser(req, res, next) {
 
 
 function validatePost(req, res, next) {
-  // DO YOUR MAGIC
+  const { body, text } = req.body;
+  try {
+    if (!body || !text) {
+      res.status(400).json({ message: "missing required name field" })
+    } else {
+      next()
+    }
+  } catch (error) {
+    next(error)
+  }
 }
 
 // do not forget to expose these functions to other modules
