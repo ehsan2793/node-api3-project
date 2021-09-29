@@ -23,7 +23,6 @@ async function validateUserId(req, res, next) {
 }
 
 async function validateUser(req, res, next) {
-  console.log(req.body.name);
   try {
     if (!req.body.name) {
       res.status(400).json({ message: "missing required name field" })
@@ -38,11 +37,12 @@ async function validateUser(req, res, next) {
 
 
 function validatePost(req, res, next) {
-  const { body, text } = req.body;
+  const { text } = req.body;
   try {
-    if (!body || !text) {
-      res.status(400).json({ message: "missing required name field" })
+    if (!text || !text.trim()) {
+      res.status(400).json({ message: "missing required text field" })
     } else {
+      req.text = text.trim()
       next()
     }
   } catch (error) {
